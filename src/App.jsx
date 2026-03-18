@@ -27,22 +27,32 @@ const App = () => {
       "date-item": "",
     });
   };
-  console.log(formSubmitted);
 
-  const handleDate = () => {
+  const getDateLabel = (dateStr) => {
     const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
+    const target = new Date(dateStr);
 
-    return `${year}-${month}-${day}`;
+    date.setHours(0, 0, 0, 0);
+    target.setHours(0, 0, 0, 0);
+
+    const diffTime = target - date;
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+    if (diffDays === 0) return "Today";
+    if (diffDays === 1) return "Tomorrow";
+
+    return target.toLocaleDateString("en-US", {
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+    });
   };
 
   const dateToday = formSubmitted.filter(
-    (data) => data["date-item"] === handleDate(),
+    (data) => getDateLabel(data["date-item"]) === "Today",
   );
   const dateOther = formSubmitted.filter(
-    (data) => data["date-item"] !== handleDate(),
+    (data) => getDateLabel(data["date-item"]) !== "Today",
   );
 
   return (
@@ -97,7 +107,7 @@ const App = () => {
                       <h4>{data.description}</h4>
                     </div>
                     <h3 className="px-3 py-2 bg-[#E8F4FF] text-[#2F46DB] rounded-sm">
-                      {data["date-item"] === handleDate() && "Today"}
+                      {getDateLabel(data["date-item"])}
                     </h3>
                   </div>
                 ))}
@@ -121,7 +131,7 @@ const App = () => {
                       <h4>{data.description}</h4>
                     </div>
                     <h3 className="px-3 py-2 bg-[#E8F4FF] text-[#2F46DB] rounded-sm">
-                      {data["date-item"] === handleDate() && "Today"}
+                      {getDateLabel(data["date-item"])}
                     </h3>
                   </div>
                 ))}
