@@ -20,8 +20,8 @@ const Input = ({
         id={idName}
         className="border border-[#EBEBEB] outline-none py-4.5 px-6 rounded-lg"
         name={idName}
-        placeholder={placeholder ? placeholder : null}
-        value={value}
+        placeholder={placeholder}
+        value={value ?? ""}
         style={{ width: sizeInput }}
         onChange={(e) => onChange(e)}
       />
