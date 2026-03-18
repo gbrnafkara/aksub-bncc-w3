@@ -18,6 +18,14 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!datas.description || !datas["date-item"]) {
+      alert("This field is required!");
+      setDatas({
+        description: "",
+        "date-item": "",
+      });
+      return;
+    }
 
     const newData = { ...datas, id: Date.now(), complete: false };
 
