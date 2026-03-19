@@ -36,6 +36,7 @@ export const Dropdown = ({ title, totalData, children }) => {
       >
         <div
           style={{ overflow: "hidden", padding: isOpen ? "10px" : "0 10px" }}
+          className="mx-6"
         >
           {children}
         </div>

@@ -71,10 +71,18 @@ const App = () => {
     { key: "archive", title: "Archive" },
   ];
 
-  console.log(getDate());
+  const sortedDate = [...groupedData.others].sort((a, b) => {
+    const dateA = new Date(a["date-item"]);
+    const dateB = new Date(b["date-item"]);
+
+    return dateA - dateB;
+  });
+
+  console.log(sortedDate);
+
   return (
-    <section className="w-full h-full justify-center">
-      <div className="w-[67%] mx-auto bg-white mt-17.5 px-18.75 py-12 shadow-[0_4px_98.1px_0_rgba(0,0,0,1,.05)] rounded-xl flex flex-col">
+    <section className="w-full h-full my-17.5">
+      <div className="w-[67%] mx-auto bg-white px-18.75 py-12 shadow-[0_4px_98.1px_0_rgba(0,0,0,1,.05)] rounded-xl flex flex-col">
         <h1 className="text-[28px] font-semibold">Good Morning, User 👋</h1>
         <h4 className="text-[#9D9D9D] mt-2">It’s {getDate()}</h4>
         <form
@@ -115,7 +123,10 @@ const App = () => {
                   key={section.key}
                   totalData={groupedData[section.key].length}
                 >
-                  {groupedData[section.key].map((data) => {
+                  {(section.key === "others"
+                    ? sortedDate
+                    : groupedData[section.key]
+                  ).map((data) => {
                     let bgColor, txtColor;
                     const date = getDateLabel(data["date-item"]);
                     if (date === "Today") {
@@ -131,21 +142,15 @@ const App = () => {
                     return (
                       <div
                         key={data.id}
-                        className="w-full flex justify-between mt-2 p-4 rounded-lg"
+                        className="w-full flex justify-between mt-2 py-4.5 px-5.5 rounded-lg"
                         style={{
                           backgroundColor: data.complete
                             ? "#F8F8F8"
                             : "#FFFFFF",
-                          transition: "bacground-color .3s ease-in",
+                          transition: "background-color .3s ease-in",
                         }}
                       >
                         <div className="flex gap-10 items-center">
-                          {/* <input
-                            type="checkbox"
-                            checked={data.complete}
-                            onChange={() => handleCheckboxClick(data.id)}
-                            className="outline-none"
-                          /> */}
                           <div
                             className="border border-[#EBEBEB] rounded-sm p-2"
                             style={{
